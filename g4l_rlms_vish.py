@@ -21,7 +21,7 @@ EXAMPLE_SEARCH_TYPES = [ 'Excursion', 'Embed', 'Webapp', 'Swf' ]
 DEFAULT_NUMBER = 100
 
 EXCURSION_REGEX = re.compile("Excursion:([0-9]+)@vishub.org")
-POS_REGEX = re.compile(".*__\([0-9]+\)")
+POS_REGEX = re.compile(".*__([0-9]+)")
 
 class ViSHAddForm(AddForm):
 
@@ -103,9 +103,9 @@ class RLMS(BaseRLMS):
 
     def load_widget(self, reservation_id, widget_name, **kwargs):
         number = POS_REGEX.match(widget_name).groups()[0]
-        obj = EXCURSION_REGEX.match(laboratory_id)
+        obj = EXCURSION_REGEX.match(reservation_id)
         if not obj:
-            raise Exception("Invalid identifier: %s" % laboratory_id)
+            raise Exception("Invalid identifier: %s" % reservation_id)
         excursion_identifier = obj.groups()[0]
 
         return {
