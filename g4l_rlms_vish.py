@@ -62,7 +62,7 @@ class RLMS(BaseRLMS):
         final_query = "http://vishub.org/apis/search?type=%s&n=%s&q=%s" % (urllib2.quote(self.search_types), self.number, urllib2.quote(query))
         results = requests.get(final_query).json()
         laboratories = []
-        for result in results:
+        for result in results['results']:
             laboratories.append(Laboratory(name = u'%s - %s' % (result['type'], result['title']), laboratory_id = result['id'], description = result['description'], autoload = True))
 
         return {
