@@ -27,6 +27,8 @@ class ViSHAddForm(AddForm):
 
     DEFAULT_LOCATION = u'Europe'
     DEFAULT_URL = u'http://vishub.org/'
+    DEFAULT_PUBLICLY_AVAILABLE = True
+    DEFAULT_PUBLIC_IDENTIFIER = 'vishub'
 
     number = TextField("Number of results", validators = [validators.NumberRange(min=1)], default = DEFAULT_NUMBER)
     search_types = TextField("Search types", description = "Separated by commas, those resources that will be displayed. Example: %s" % (','.join(EXAMPLE_SEARCH_TYPES)), default = ','.join(DEFAULT_SEARCH_TYPES)) 
