@@ -10,10 +10,11 @@ import urllib2
 import requests
 
 from wtforms import validators
+from flask import Blueprint, url_for
 from flask.ext.wtf import TextField, PasswordField, Required, URL, ValidationError
 
 from labmanager.forms import AddForm
-from labmanager.rlms import register, Laboratory, Capabilities
+from labmanager.rlms import register, Laboratory, Capabilities, register_blueprint
 from labmanager.rlms.base import BaseRLMS, BaseFormCreator, Versions
 
 DEFAULT_SEARCH_TYPES = [ 'Excursion' ]
@@ -108,7 +109,9 @@ class RLMS(BaseRLMS):
         number = POS_REGEX.match(widget_name).groups()[0]
         obj = EXCURSION_REGEX.match(reservation_id)
         if not obj:
-            raise Exception("Invalid identifier: %s" % reservation_id)
+            return {
+                'url' : url_for('vish.index', _external = True)
+            }
         excursion_identifier = obj.groups()[0]
 
         return {
@@ -116,3 +119,10 @@ class RLMS(BaseRLMS):
         }
 
 register("ViSH", ['1.0'], __name__)
+
+vish_blueprint = Blueprint('vish', __name__)
+@vish_blueprint.route('/')
+def index():
+    return "Invalid reservation identifier"
+
+register_blueprint(vish_blueprint, '/vish')
